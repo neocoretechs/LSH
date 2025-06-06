@@ -29,6 +29,7 @@ import com.neocoretechs.lsh.util.FileUtils;
  * the moment the index is stored in memory. It holds a number of hash tables,
  * each with a couple of hashes. Together they can be used for efficient lookup
  * of nearest neighbors.
+ * {@link HashTable}
  * 
  */
 public class Index implements Serializable{
@@ -169,7 +170,6 @@ public class Index implements Serializable{
 		return name + "_" + numberOfHashes + "_" + numberOfHashTables + ".bin";
 	}
 	
-
 	/**
 	 * Deserializes the hash table from disk. If deserialization fails, 
 	 * a new Index is created.

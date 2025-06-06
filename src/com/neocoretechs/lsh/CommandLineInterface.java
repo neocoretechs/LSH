@@ -11,10 +11,10 @@ import com.neocoretechs.lsh.util.FileUtils;
 public class CommandLineInterface {
 	private static final int VECTOR_DIMENSION = 50;
 	//GLOVE_FILE = "glove.6B.50d.txt";
-	public static HashTable.hashFamilyType hashFamilyType = HashTable.hashFamilyType.l2; // l1, l2, cos
+	public static HashTable.hashFamilyType hashFamilyType = HashTable.hashFamilyType.cos; // l1, l2, cos
 	private Index index;
 	public static int numberOfHashTables = 8;
-	public static int numberOfHashes = 16;
+	public static int numberOfHashes = 8;
 	public static int numberOfNeighbors = -1;//4;
 	
 	/**
@@ -47,7 +47,7 @@ public class CommandLineInterface {
 	 *            The number of hash tables to use.
 	 */
 	public void buildIndex(List<F32FloatTensor> dataset, int numberOfHashes, int numberOfHashTables) {
-		index = Index.deserialize(HashTable.hashFactory(hashFamilyType, dataset.size()), numberOfHashes, numberOfHashTables);
+		index = Index.deserialize(HashTable.hashFactory(hashFamilyType, VECTOR_DIMENSION), numberOfHashes, numberOfHashTables);
 		if(dataset != null){
 			for(F32FloatTensor vector : dataset){
 				index.index(vector);
@@ -101,7 +101,7 @@ public class CommandLineInterface {
 			cmdl.buildIndex(vectors, numberOfHashes, numberOfHashTables);
 		} else {
 			if(args[0].equals("query")) {
-				cmdl.index = Index.deserialize(HashTable.hashFactory(hashFamilyType, vectors.size()), numberOfHashes, numberOfHashTables);
+				cmdl.index = Index.deserialize(HashTable.hashFactory(hashFamilyType, VECTOR_DIMENSION), numberOfHashes, numberOfHashTables);
 				cmdl.showNeighbors(vectors);
 			}
 		}

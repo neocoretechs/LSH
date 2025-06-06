@@ -17,6 +17,7 @@ import com.neocoretechs.lsh.util.Parallel;
  * An {@link Index} contains one or more locality sensitive hash tables. These hash
  * tables contain the mapping between a combination of a number of hashes
  * (encoded using an integer) and a list of possible nearest neighbors.
+ * {@link HashFunction}
  * 
  */
 class HashTable implements Serializable {
