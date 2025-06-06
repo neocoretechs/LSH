@@ -6,6 +6,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import com.neocoretechs.lsh.families.CityBlockHashFamily;
+import com.neocoretechs.lsh.families.CosineHashFamily;
+import com.neocoretechs.lsh.families.EuclidianHashFamily;
 import com.neocoretechs.lsh.families.HashFamily;
 import com.neocoretechs.lsh.families.HashFunction;
 import com.neocoretechs.lsh.util.Parallel;
@@ -19,7 +22,7 @@ import com.neocoretechs.lsh.util.Parallel;
 class HashTable implements Serializable {
 	private static final long serialVersionUID = -5410017645908038641L;
 	private static boolean DEBUG = true;
-
+	private static int radius = 500;
 	/**
 	 * Contains the mapping between a combination of a number of hashes (encoded
 	 * using an integer) and a list of possible nearest neighbours
@@ -29,6 +32,9 @@ class HashTable implements Serializable {
 	private HashFamily family;
 	private int index;
 	
+	static enum hashFamilyType {
+		l1, l2, cos;
+	}
 	/**
 	 * Initialize a new hash table, it needs a hash family and a number of hash
 	 * functions that should be used.
@@ -106,6 +112,28 @@ class HashTable implements Serializable {
 	 */
 	public int getNumberOfHashes() {
 		return hashFunctions.length;
+	}
+	/**
+	 * GEnerate the proper HashFamily depending on type and dataset size
+	 * @param type type of HashFamily: l1, l2, cos
+	 * @param datasetSize vectors.size
+	 * @return the HashFamily implementation, defaults to cos
+	 */
+	public static HashFamily hashFactory(hashFamilyType type, int datasetSize) {
+		int w;
+		switch(type) {
+		case l1:
+			w = (int) (10 * radius);
+			w = w == 0 ? 1 : w;
+			return new CityBlockHashFamily(w,datasetSize);
+		case l2:
+			w = (int) (10 * radius);
+			w = w == 0 ? 1 : w;
+			return new EuclidianHashFamily(w,datasetSize);
+		case cos:
+		default:
+			return new CosineHashFamily(datasetSize);
+		}
 	}
 	
 	@Override

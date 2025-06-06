@@ -3,8 +3,6 @@ package com.neocoretechs.lsh;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.neocoretechs.lsh.families.CosineHashFamily;
-import com.neocoretechs.lsh.families.HashFamily;
 import com.neocoretechs.lsh.util.FileUtils;
 
 /**
@@ -13,6 +11,7 @@ import com.neocoretechs.lsh.util.FileUtils;
 public class CommandLineInterface {
 	private static final int VECTOR_DIMENSION = 50;
 	//GLOVE_FILE = "glove.6B.50d.txt";
+	public static HashTable.hashFamilyType hashFamilyType = HashTable.hashFamilyType.l2; // l1, l2, cos
 	private Index index;
 	public static int numberOfHashTables = 8;
 	public static int numberOfHashes = 16;
@@ -39,6 +38,8 @@ public class CommandLineInterface {
 	}
 	/**
 	 * Build an index by creating a new one and adding each vector.
+	 * {@link com.neocoretechs.lsh.families.HashFunction}
+	 * 
 	 * @param dataset list of tensors to build or null to deserialize current index
 	 * @param numberOfHashes
 	 *            The number of hashes to use in each hash table.
@@ -46,22 +47,7 @@ public class CommandLineInterface {
 	 *            The number of hash tables to use.
 	 */
 	public void buildIndex(List<F32FloatTensor> dataset, int numberOfHashes, int numberOfHashTables) {
-		HashFamily hashFamily;
-		// DistanceMeasure measure;
-		// radius = 500;
-		// l1
-		// measure = new CityBlockDistance();
-		// int w = (int) (10 * radius);
-		// w = w == 0 ? 1 : w;
-		// hashFamily = new CityBlockHashFamily(w,dataset.size());
-		// l2
-		// measure = new CityBlockDistance();
-		// int w = (int) (10 * radius);
-		// w = w == 0 ? 1 : w;
-		// hasFamily = new EuclidianHashFamily(w,dataset.size());
-		//
-		hashFamily = new CosineHashFamily(dataset.size());
-		index = Index.deserialize(hashFamily, numberOfHashes, numberOfHashTables);
+		index = Index.deserialize(HashTable.hashFactory(hashFamilyType, dataset.size()), numberOfHashes, numberOfHashTables);
 		if(dataset != null){
 			for(F32FloatTensor vector : dataset){
 				index.index(vector);
@@ -115,22 +101,7 @@ public class CommandLineInterface {
 			cmdl.buildIndex(vectors, numberOfHashes, numberOfHashTables);
 		} else {
 			if(args[0].equals("query")) {
-				HashFamily hashFamily;
-				// DistanceMeasure measure;
-				// radius = 500;
-				// l1
-				// measure = new CityBlockDistance();
-				// int w = (int) (10 * radius);
-				// w = w == 0 ? 1 : w;
-				// hashFamily = new CityBlockHashFamily(w,dataset.size());
-				// l2
-				// measure = new CityBlockDistance();
-				// int w = (int) (10 * radius);
-				// w = w == 0 ? 1 : w;
-				// hasFamily = new EuclidianHashFamily(w,dataset.size());
-				//
-				hashFamily = new CosineHashFamily(vectors.size());
-				cmdl.index = Index.deserialize(hashFamily, numberOfHashes, numberOfHashTables);
+				cmdl.index = Index.deserialize(HashTable.hashFactory(hashFamilyType, vectors.size()), numberOfHashes, numberOfHashTables);
 				cmdl.showNeighbors(vectors);
 			}
 		}
