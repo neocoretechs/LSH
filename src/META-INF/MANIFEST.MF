@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Implementation-Version: 0.1
+Built-By: 
+Created-By: 
+Built-Date: June 04 2025
+Main-Class: com.neocoretechs.lsh.LSH
+
