@@ -1,11 +1,12 @@
 <h3>Locality Sensitive Hash (LSH) Demonstrator</h3>
-An Index contains one or more locality sensitive hash tables. These hash
+An Index contains one or more locality sensitive hash tables. These hash 
 tables contain the mapping between a combination of a number of hashes
 (encoded using an integer) and a list of possible nearest neighbors.
-HashFunctions:<p/>
-Manhattan:<p/> This distance measure calculates the city block distance between two vectors. This distance metric also known as the Manhattan distance or L<sub>1</sub> distance.
+<h2>Hash Functions:</h2><p/>
+Manhattan:<p/>
+<blockquote>
+ This distance measure calculates the city block distance between two vectors. This distance metric also known as the Manhattan distance or L<sub>1</sub> distance.
 Wikipedia calls it <a href="http://en.wikipedia.org/wiki/Taxicab_geometry">"Taxicab geometry"</a>:
-<blockquote> 
 Taxicab geometry, considered by Hermann Minkowski in the 19th 
 century, is a form of geometry in which the usual distance function or metric
 of Euclidean geometry is replaced by a new metric in which the distance
