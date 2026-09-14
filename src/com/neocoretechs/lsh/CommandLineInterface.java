@@ -13,8 +13,8 @@ public class CommandLineInterface {
 	//GLOVE_FILE = "glove.6B.50d.txt";
 	public static HashTable.hashFamilyType hashFamilyType = HashTable.hashFamilyType.cos; // l1, l2, cos
 	private Index index;
-	public static int numberOfHashTables = 8;
-	public static int numberOfHashes = 8;
+	public static int numberOfHashTables = 16;
+	public static int numberOfHashes = 12;
 	public static int numberOfNeighbors = -1;//4;
 	
 	/**
